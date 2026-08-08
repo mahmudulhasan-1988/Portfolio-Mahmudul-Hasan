@@ -5,15 +5,16 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, Heart, Code2, FolderGit2, Briefcase, GraduationCap, Mail, ShieldCheck, Menu, X, Sparkles, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
+import Image from 'next/image';
 
 const navLinks = [
-  { name: 'Home',       href: '#home',       icon: Terminal },
-  { name: 'About',      href: '#about-me',   icon: Heart },
-  { name: 'Skills',     href: '#skills',     icon: Code2 },
-  { name: 'Projects',   href: '#projects',   icon: FolderGit2 },
+  { name: 'Home', href: '#home', icon: Terminal },
+  { name: 'About', href: '#about-me', icon: Heart },
+  { name: 'Skills', href: '#skills', icon: Code2 },
+  { name: 'Projects', href: '#projects', icon: FolderGit2 },
   { name: 'Experience', href: '#experience', icon: Briefcase },
-  { name: 'Education',  href: '#education',  icon: GraduationCap },
-  { name: 'Contact',    href: '#contact',    icon: Mail },
+  { name: 'Education', href: '#education', icon: GraduationCap },
+  { name: 'Contact', href: '#contact', icon: Mail },
 ];
 
 export default function Navbar() {
@@ -75,16 +76,17 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 py-3.5 transition-colors duration-300 ${
-        scrolled ? 'glass-nav shadow-lg shadow-violet-950/30' : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 py-3.5 transition-colors duration-300 ${scrolled ? 'glass-nav shadow-lg shadow-violet-950/30' : 'bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-700 to-purple-400 flex items-center justify-center shadow-lg shadow-violet-600/30 group-hover:shadow-violet-500/50 transition-shadow duration-300">
-            <Terminal className="w-5 h-5 text-white" />
+            {/* <Terminal className="w-5 h-5 text-white" />
+             */}
+            <Image className='w-10 h-10 rounded-xl' src="https://i.ibb.co.com/pv83jvbS/PP-Hasan.png" alt="Logo" width={25} height={25} />
           </div>
           <div className="leading-tight">
             <span className="font-extrabold text-[1.05rem] text-white group-hover:text-violet-300 transition-colors flex items-center gap-1">
@@ -104,9 +106,8 @@ export default function Navbar() {
                 key={name}
                 href={href}
                 onClick={(e) => handleNavClick(e, href)}
-                className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 z-10 ${
-                  isActive ? 'text-white font-bold' : 'text-slate-400 hover:text-white'
-                }`}
+                className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 z-10 ${isActive ? 'text-white font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
               >
                 {isActive && mounted && (
                   <motion.div
@@ -191,11 +192,10 @@ export default function Navbar() {
                       handleNavClick(e, href);
                       setOpen(false);
                     }}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                      isActive 
-                        ? 'text-white bg-violet-600/30 border border-violet-500/40 font-semibold shadow-inner' 
-                        : 'text-slate-300 hover:text-white hover:bg-violet-500/10'
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
+                      ? 'text-white bg-violet-600/30 border border-violet-500/40 font-semibold shadow-inner'
+                      : 'text-slate-300 hover:text-white hover:bg-violet-500/10'
+                      }`}
                   >
                     <Icon className={`w-4 h-4 ${isActive ? 'text-violet-300' : 'text-violet-400'}`} />
                     <span className="text-sm font-medium">{name}</span>

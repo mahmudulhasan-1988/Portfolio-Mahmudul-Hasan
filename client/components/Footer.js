@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Terminal, Github, Linkedin, Twitter, Facebook, ArrowUp, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 
 const NAV = [
   { label: 'Home', href: '#home' },
@@ -40,7 +41,8 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-700 to-purple-400 flex items-center justify-center shadow-lg shadow-violet-600/30">
-                <Terminal className="w-5 h-5 text-white" />
+                {/* <Terminal className="w-5 h-5 text-white" /> */}
+                <Image className='w-10 h-10 rounded-xl' src="https://i.ibb.co.com/pv83jvbS/PP-Hasan.png" alt="Logo" width={25} height={25} />
               </div>
               <div>
                 <span className="font-extrabold text-white text-base flex items-center gap-1">
