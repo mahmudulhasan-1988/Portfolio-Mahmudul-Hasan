@@ -163,22 +163,22 @@ export default function AdminPage() {
     fetch('http://localhost:5000/api/projects')
       .then(res => res.json())
       .then(data => setProjects(data))
-      .catch(() => {});
+      .catch(() => { });
 
     fetch('http://localhost:5000/api/messages')
       .then(res => res.json())
       .then(data => setMessages(data))
-      .catch(() => {});
+      .catch(() => { });
 
     fetch('http://localhost:5000/api/skills')
       .then(res => res.json())
       .then(data => setSkills(data))
-      .catch(() => {});
+      .catch(() => { });
 
     fetch('http://localhost:5000/api/education')
       .then(res => res.json())
       .then(data => setEducationList(Array.isArray(data) ? data : []))
-      .catch(() => {});
+      .catch(() => { });
   };
 
   useEffect(() => {
@@ -191,8 +191,8 @@ export default function AdminPage() {
     e.preventDefault();
     try {
       const isEditing = editingEduIndex !== null;
-      const targetUrl = isEditing 
-        ? `http://localhost:5000/api/education/${editingEduIndex}` 
+      const targetUrl = isEditing
+        ? `http://localhost:5000/api/education/${editingEduIndex}`
         : 'http://localhost:5000/api/education';
       const method = isEditing ? 'PUT' : 'POST';
 
@@ -258,7 +258,7 @@ export default function AdminPage() {
     setStatusMsg(null);
 
     const isEditing = Boolean(editingProjectId);
-    const targetUrl = isEditing 
+    const targetUrl = isEditing
       ? `http://localhost:5000/api/projects/${editingProjectId}`
       : 'http://localhost:5000/api/projects';
     const method = isEditing ? 'PUT' : 'POST';
@@ -272,11 +272,11 @@ export default function AdminPage() {
       const savedData = await res.json();
 
       if (res.ok) {
-        setStatusMsg({ 
-          type: 'success', 
-          text: isEditing 
-            ? `Project "${savedData.title || newProject.title}" updated successfully in MongoDB!` 
-            : `Project "${savedData.title}" saved successfully to MongoDB!` 
+        setStatusMsg({
+          type: 'success',
+          text: isEditing
+            ? `Project "${savedData.title || newProject.title}" updated successfully in MongoDB!`
+            : `Project "${savedData.title}" saved successfully to MongoDB!`
         });
         loadAdminData();
         cancelEditProject();
@@ -353,8 +353,8 @@ export default function AdminPage() {
     e.preventDefault();
     try {
       const isEditing = Boolean(editingSkillId);
-      const targetUrl = isEditing 
-        ? `http://localhost:5000/api/skills/${editingSkillId}` 
+      const targetUrl = isEditing
+        ? `http://localhost:5000/api/skills/${editingSkillId}`
         : 'http://localhost:5000/api/skills';
       const method = isEditing ? 'PUT' : 'POST';
 
@@ -402,7 +402,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4 sm:p-8 font-sans">
-      
+
       {/* Top Bar */}
       <div className="max-w-7xl mx-auto flex items-center justify-between pb-8 mb-8 border-b border-slate-800">
         <div className="flex items-center gap-3">
@@ -416,7 +416,7 @@ export default function AdminPage() {
         </div>
 
         {isUserAuthenticated && (
-          <button 
+          <button
             onClick={() => { setAuthenticated(false); signOut(); }}
             className="btn btn-sm btn-outline border-slate-700 text-slate-300 hover:bg-slate-800 gap-2"
           >
@@ -434,7 +434,6 @@ export default function AdminPage() {
             </div>
             <h2 className="text-2xl font-extrabold text-white">Admin Authentication</h2>
             <p className="text-xs text-slate-400 font-mono">
-              Sign in with Better Auth or enter admin passcode (Default: admin123)
             </p>
           </div>
 
@@ -447,8 +446,8 @@ export default function AdminPage() {
           <form onSubmit={handleAdminLogin} className="space-y-4">
             <div className="form-control">
               <label className="label text-xs font-mono text-slate-300">Admin Passcode</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 placeholder="Enter admin passcode"
@@ -465,12 +464,11 @@ export default function AdminPage() {
       ) : (
         /* Authenticated Admin Dashboard */
         <div className="max-w-7xl mx-auto space-y-8">
-          
+
           {/* Status Message */}
           {statusMsg && (
-            <div className={`p-4 rounded-xl flex items-center justify-between ${
-              statusMsg.type === 'success' ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300' : 'bg-red-500/10 border border-red-500/30 text-red-300'
-            }`}>
+            <div className={`p-4 rounded-xl flex items-center justify-between ${statusMsg.type === 'success' ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300' : 'bg-red-500/10 border border-red-500/30 text-red-300'
+              }`}>
               <span className="text-sm flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4" /> {statusMsg.text}
               </span>
@@ -480,25 +478,25 @@ export default function AdminPage() {
 
           {/* Admin Navigation Tabs */}
           <div className="flex items-center gap-2 border-b border-slate-800 pb-3 flex-wrap">
-            <button 
+            <button
               onClick={() => setActiveTab('projects')}
               className={`btn btn-sm rounded-lg gap-2 ${activeTab === 'projects' ? 'btn-primary' : 'btn-ghost text-slate-400'}`}
             >
               <FolderGit2 className="w-4 h-4" /> Projects ({projects.length})
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('messages')}
               className={`btn btn-sm rounded-lg gap-2 ${activeTab === 'messages' ? 'btn-primary' : 'btn-ghost text-slate-400'}`}
             >
               <Mail className="w-4 h-4" /> Messages ({messages.length})
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('skills')}
               className={`btn btn-sm rounded-lg gap-2 ${activeTab === 'skills' ? 'btn-primary' : 'btn-ghost text-slate-400'}`}
             >
               <Cpu className="w-4 h-4" /> Skills ({skills.length})
             </button>
-            <button 
+            <button
               onClick={() => setActiveTab('education')}
               className={`btn btn-sm rounded-lg gap-2 ${activeTab === 'education' ? 'btn-primary' : 'btn-ghost text-slate-400'}`}
             >
@@ -510,7 +508,7 @@ export default function AdminPage() {
           {/* TAB 1: PROJECTS MANAGEMENT */}
           {activeTab === 'projects' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              
+
               {/* Add Project Form with Live Link & ImgBB Image Support */}
               <div className="lg:col-span-6 glass-card p-6 rounded-2xl border border-slate-800 h-fit">
                 <div className="flex items-center justify-between mb-4">
@@ -522,8 +520,8 @@ export default function AdminPage() {
                     )}
                   </h3>
                   {editingProjectId && (
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={cancelEditProject}
                       className="btn btn-xs btn-outline border-slate-700 text-slate-400 hover:text-white rounded-lg"
                     >
@@ -535,11 +533,11 @@ export default function AdminPage() {
                 <form onSubmit={handleCreateProject} className="space-y-4">
                   <div>
                     <label className="text-xs font-mono text-slate-300">Project Title *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
-                      value={newProject.title} 
-                      onChange={e => setNewProject({...newProject, title: e.target.value})}
+                      value={newProject.title}
+                      onChange={e => setNewProject({ ...newProject, title: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg"
                       placeholder="e.g. NovaCloud E-Commerce"
                     />
@@ -547,11 +545,11 @@ export default function AdminPage() {
 
                   <div>
                     <label className="text-xs font-mono text-slate-300">Short Description *</label>
-                    <textarea 
+                    <textarea
                       required
                       rows={2}
-                      value={newProject.description} 
-                      onChange={e => setNewProject({...newProject, description: e.target.value})}
+                      value={newProject.description}
+                      onChange={e => setNewProject({ ...newProject, description: e.target.value })}
                       className="textarea textarea-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg"
                       placeholder="Brief summary displayed on project cards"
                     />
@@ -559,10 +557,10 @@ export default function AdminPage() {
 
                   <div>
                     <label className="text-xs font-mono text-slate-300">Detailed Description / Architecture</label>
-                    <textarea 
+                    <textarea
                       rows={3}
-                      value={newProject.longDescription} 
-                      onChange={e => setNewProject({...newProject, longDescription: e.target.value})}
+                      value={newProject.longDescription}
+                      onChange={e => setNewProject({ ...newProject, longDescription: e.target.value })}
                       className="textarea textarea-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg"
                       placeholder="Full case study explanation shown inside the details modal"
                     />
@@ -573,11 +571,11 @@ export default function AdminPage() {
                     <label className="text-xs font-mono text-emerald-400 flex items-center gap-1">
                       <ExternalLink className="w-3.5 h-3.5" /> Live Project Link (URL) *
                     </label>
-                    <input 
-                      type="url" 
+                    <input
+                      type="url"
                       required
-                      value={newProject.liveUrl} 
-                      onChange={e => setNewProject({...newProject, liveUrl: e.target.value})}
+                      value={newProject.liveUrl}
+                      onChange={e => setNewProject({ ...newProject, liveUrl: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg"
                       placeholder="https://my-live-project.com"
                     />
@@ -588,10 +586,10 @@ export default function AdminPage() {
                     <label className="text-xs font-mono text-slate-300 flex items-center gap-1">
                       <Github className="w-3.5 h-3.5" /> Client GitHub Repository URL
                     </label>
-                    <input 
-                      type="url" 
-                      value={newProject.githubUrl} 
-                      onChange={e => setNewProject({...newProject, githubUrl: e.target.value})}
+                    <input
+                      type="url"
+                      value={newProject.githubUrl}
+                      onChange={e => setNewProject({ ...newProject, githubUrl: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg"
                       placeholder="https://github.com/username/project-client"
                     />
@@ -634,10 +632,10 @@ export default function AdminPage() {
                     {/* ImgBB Generated Link Badge */}
                     {newProject.image && (
                       <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between text-xs">
-                        <a 
-                          href={newProject.image} 
-                          target="_blank" 
-                          rel="noreferrer" 
+                        <a
+                          href={newProject.image}
+                          target="_blank"
+                          rel="noreferrer"
                           className="text-emerald-300 hover:underline font-mono truncate max-w-[90%] flex items-center gap-1.5"
                         >
                           <ExternalLink className="w-3.5 h-3.5 shrink-0" />
@@ -650,7 +648,7 @@ export default function AdminPage() {
                     <input
                       type="text"
                       value={newProject.image}
-                      onChange={e => { setNewProject({...newProject, image: e.target.value}); setImgPreview(e.target.value); }}
+                      onChange={e => { setNewProject({ ...newProject, image: e.target.value }); setImgPreview(e.target.value); }}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg text-xs"
                       placeholder="Or paste ImgBB/Unsplash URL directly: https://i.ibb.co/..."
                     />
@@ -660,9 +658,9 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-xs font-mono text-slate-400">Category</label>
-                      <select 
+                      <select
                         value={newProject.category}
-                        onChange={e => setNewProject({...newProject, category: e.target.value})}
+                        onChange={e => setNewProject({ ...newProject, category: e.target.value })}
                         className="select select-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       >
                         <option>Full Stack</option>
@@ -672,9 +670,9 @@ export default function AdminPage() {
                     </div>
                     <div>
                       <label className="text-xs font-mono text-slate-400">Featured Showcase</label>
-                      <select 
+                      <select
                         value={newProject.featured ? "true" : "false"}
-                        onChange={e => setNewProject({...newProject, featured: e.target.value === "true"})}
+                        onChange={e => setNewProject({ ...newProject, featured: e.target.value === "true" })}
                         className="select select-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       >
                         <option value="true">Yes (Badge)</option>
@@ -685,20 +683,20 @@ export default function AdminPage() {
 
                   <div>
                     <label className="text-xs font-mono text-slate-400">Tech Tags (comma separated)</label>
-                    <input 
-                      type="text" 
-                      value={newProject.tags} 
-                      onChange={e => setNewProject({...newProject, tags: e.target.value})}
+                    <input
+                      type="text"
+                      value={newProject.tags}
+                      onChange={e => setNewProject({ ...newProject, tags: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                     />
                   </div>
 
                   <div>
                     <label className="text-xs font-mono text-amber-400">Challenges Faced</label>
-                    <textarea 
+                    <textarea
                       rows={2}
-                      value={newProject.challenges} 
-                      onChange={e => setNewProject({...newProject, challenges: e.target.value})}
+                      value={newProject.challenges}
+                      onChange={e => setNewProject({ ...newProject, challenges: e.target.value })}
                       className="textarea textarea-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg text-xs"
                       placeholder="Technical hurdles overcome during development"
                     />
@@ -706,24 +704,23 @@ export default function AdminPage() {
 
                   <div>
                     <label className="text-xs font-mono text-indigo-400">Future Improvements</label>
-                    <textarea 
+                    <textarea
                       rows={2}
-                      value={newProject.futurePlans} 
-                      onChange={e => setNewProject({...newProject, futurePlans: e.target.value})}
+                      value={newProject.futurePlans}
+                      onChange={e => setNewProject({ ...newProject, futurePlans: e.target.value })}
                       className="textarea textarea-sm w-full bg-slate-900 border-slate-800 text-white placeholder-slate-600 rounded-lg text-xs"
                       placeholder="Planned upcoming features and roadmap"
                     />
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={submitting}
-                    className={`btn btn-sm w-full border-0 mt-2 rounded-lg ${
-                      editingProjectId ? 'btn-accent text-slate-950 font-bold' : 'btn-primary bg-gradient-to-r from-primary to-secondary'
-                    }`}
+                    className={`btn btn-sm w-full border-0 mt-2 rounded-lg ${editingProjectId ? 'btn-accent text-slate-950 font-bold' : 'btn-primary bg-gradient-to-r from-primary to-secondary'
+                      }`}
                   >
-                    {submitting 
-                      ? (editingProjectId ? 'Updating in MongoDB...' : 'Saving to MongoDB...') 
+                    {submitting
+                      ? (editingProjectId ? 'Updating in MongoDB...' : 'Saving to MongoDB...')
                       : (editingProjectId ? 'Update Project in MongoDB' : 'Save Project to MongoDB')
                     }
                   </button>
@@ -735,9 +732,8 @@ export default function AdminPage() {
               <div className="lg:col-span-6 space-y-4">
                 <h3 className="text-lg font-bold text-white mb-2">Projects in MongoDB ({projects.length})</h3>
                 {projects.map(p => (
-                  <div key={p._id} className={`p-4 rounded-xl bg-slate-900 border flex items-start justify-between gap-3 shadow-md transition-colors ${
-                    editingProjectId === p._id ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
-                  }`}>
+                  <div key={p._id} className={`p-4 rounded-xl bg-slate-900 border flex items-start justify-between gap-3 shadow-md transition-colors ${editingProjectId === p._id ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
+                    }`}>
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white text-base">{p.title}</span>
@@ -747,14 +743,14 @@ export default function AdminPage() {
                         )}
                       </div>
                       <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">{p.description}</p>
-                      
+
                       {/* Live Link Badge */}
                       {p.liveUrl && (
                         <div className="pt-1 flex items-center gap-2">
-                          <a 
-                            href={p.liveUrl} 
-                            target="_blank" 
-                            rel="noreferrer" 
+                          <a
+                            href={p.liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
                             className="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-mono"
                           >
                             <ExternalLink className="w-3 h-3" /> {p.liveUrl}
@@ -764,14 +760,14 @@ export default function AdminPage() {
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
-                      <button 
+                      <button
                         onClick={() => startEditProject(p)}
                         className="btn btn-sm btn-ghost text-indigo-400 hover:bg-indigo-500/10 rounded-lg gap-1.5 font-mono text-xs"
                         title="Edit Data"
                       >
                         <Pencil className="w-3.5 h-3.5" /> Edit Data
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleDeleteProject(p._id)}
                         className="btn btn-sm btn-ghost text-red-400 hover:bg-red-500/10 rounded-lg"
                         title="Delete Project"
@@ -830,8 +826,8 @@ export default function AdminPage() {
                     )}
                   </h3>
                   {editingSkillId && (
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={cancelEditSkill}
                       className="btn btn-xs btn-outline border-slate-700 text-slate-400 hover:text-white rounded-lg"
                     >
@@ -843,20 +839,20 @@ export default function AdminPage() {
                 <form onSubmit={handleCreateSkill} className="space-y-4">
                   <div>
                     <label className="text-xs font-mono text-slate-400">Skill Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
                       value={newSkill.name}
-                      onChange={e => setNewSkill({...newSkill, name: e.target.value})}
+                      onChange={e => setNewSkill({ ...newSkill, name: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       placeholder="e.g. React.js, Redis, MongoDB"
                     />
                   </div>
                   <div>
                     <label className="text-xs font-mono text-slate-400">Category</label>
-                    <select 
+                    <select
                       value={newSkill.category}
-                      onChange={e => setNewSkill({...newSkill, category: e.target.value})}
+                      onChange={e => setNewSkill({ ...newSkill, category: e.target.value })}
                       className="select select-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                     >
                       <option>Frontend</option>
@@ -867,17 +863,17 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label className="text-xs font-mono text-slate-400">Proficiency ({newSkill.level}%)</label>
-                    <input 
-                      type="range" 
-                      min="50" 
-                      max="100" 
+                    <input
+                      type="range"
+                      min="50"
+                      max="100"
                       value={newSkill.level}
-                      onChange={e => setNewSkill({...newSkill, level: Number(e.target.value)})}
+                      onChange={e => setNewSkill({ ...newSkill, level: Number(e.target.value) })}
                       className="range range-xs range-primary"
                     />
                   </div>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className={`btn btn-sm w-full rounded-lg ${editingSkillId ? 'btn-accent text-slate-950 font-bold' : 'btn-primary'}`}
                   >
                     {editingSkillId ? 'Update Skill in MongoDB' : 'Save Skill to MongoDB'}
@@ -892,9 +888,8 @@ export default function AdminPage() {
                     const TechIcon = getTechIcon(s.name);
                     const isBeingEdited = editingSkillId === s._id;
                     return (
-                      <div key={s._id} className={`p-3.5 rounded-xl bg-slate-900 border flex items-center justify-between shadow-md transition-colors ${
-                        isBeingEdited ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
-                      }`}>
+                      <div key={s._id} className={`p-3.5 rounded-xl bg-slate-900 border flex items-center justify-between shadow-md transition-colors ${isBeingEdited ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
+                        }`}>
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 shadow-inner">
                             <TechIcon className="w-5 h-5" />
@@ -908,14 +903,14 @@ export default function AdminPage() {
                         </div>
 
                         <div className="flex items-center gap-1 shrink-0">
-                          <button 
+                          <button
                             onClick={() => startEditSkill(s)}
                             className="btn btn-xs btn-ghost text-indigo-400 hover:bg-indigo-500/10 rounded-md gap-1 font-mono"
                             title="Edit Skill"
                           >
                             <Pencil className="w-3.5 h-3.5" /> Edit
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDeleteSkill(s._id)}
                             className="btn btn-xs btn-ghost text-red-400 hover:bg-red-500/10 rounded-md"
                             title="Delete Skill"
@@ -944,8 +939,8 @@ export default function AdminPage() {
                     )}
                   </h3>
                   {editingEduIndex !== null && (
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={cancelEditEdu}
                       className="btn btn-xs btn-outline border-slate-700 text-slate-400 hover:text-white rounded-lg"
                     >
@@ -957,22 +952,22 @@ export default function AdminPage() {
                 <form onSubmit={handleCreateOrUpdateEducation} className="space-y-4">
                   <div>
                     <label className="text-xs font-mono text-slate-400">Degree / Qualification *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
                       value={newEdu.degree}
-                      onChange={e => setNewEdu({...newEdu, degree: e.target.value})}
+                      onChange={e => setNewEdu({ ...newEdu, degree: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       placeholder="e.g. B.Sc in Computer Science & Engineering"
                     />
                   </div>
                   <div>
                     <label className="text-xs font-mono text-slate-400">Institution *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
                       value={newEdu.institution}
-                      onChange={e => setNewEdu({...newEdu, institution: e.target.value})}
+                      onChange={e => setNewEdu({ ...newEdu, institution: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       placeholder="e.g. Daffodil International University"
                     />
@@ -980,20 +975,20 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-xs font-mono text-slate-400">Period</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         value={newEdu.period}
-                        onChange={e => setNewEdu({...newEdu, period: e.target.value})}
+                        onChange={e => setNewEdu({ ...newEdu, period: e.target.value })}
                         className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                         placeholder="e.g. 2018 – 2022"
                       />
                     </div>
                     <div>
                       <label className="text-xs font-mono text-slate-400">GPA / Grade</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         value={newEdu.gpa}
-                        onChange={e => setNewEdu({...newEdu, gpa: e.target.value})}
+                        onChange={e => setNewEdu({ ...newEdu, gpa: e.target.value })}
                         className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                         placeholder="e.g. 3.85 / 4.0"
                       />
@@ -1001,26 +996,26 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label className="text-xs font-mono text-slate-400">Highlights / Summary</label>
-                    <textarea 
+                    <textarea
                       rows="3"
                       value={newEdu.highlights}
-                      onChange={e => setNewEdu({...newEdu, highlights: e.target.value})}
+                      onChange={e => setNewEdu({ ...newEdu, highlights: e.target.value })}
                       className="textarea textarea-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       placeholder="Specialization, thesis, awards or achievements..."
                     ></textarea>
                   </div>
                   <div>
                     <label className="text-xs font-mono text-slate-400">Core Coursework (Comma separated)</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={newEdu.keyCourses}
-                      onChange={e => setNewEdu({...newEdu, keyCourses: e.target.value})}
+                      onChange={e => setNewEdu({ ...newEdu, keyCourses: e.target.value })}
                       className="input input-sm w-full bg-slate-900 border-slate-800 text-white rounded-lg"
                       placeholder="Data Structures, Database Systems, Web Tech"
                     />
                   </div>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className={`btn btn-sm w-full rounded-lg ${editingEduIndex !== null ? 'btn-accent text-slate-950 font-bold' : 'btn-primary'}`}
                   >
                     {editingEduIndex !== null ? 'Update Education Record' : 'Save Education Record'}
@@ -1035,9 +1030,8 @@ export default function AdminPage() {
                     <div className="p-8 text-center text-slate-500 font-mono">No education entries found. Add one on the left!</div>
                   ) : (
                     educationList.map((edu, idx) => (
-                      <div key={idx} className={`p-4 rounded-xl bg-slate-900 border flex flex-col justify-between shadow-md transition-colors space-y-3 ${
-                        editingEduIndex === idx ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
-                      }`}>
+                      <div key={idx} className={`p-4 rounded-xl bg-slate-900 border flex flex-col justify-between shadow-md transition-colors space-y-3 ${editingEduIndex === idx ? 'border-accent/80 bg-slate-900/90' : 'border-slate-800'
+                        }`}>
                         <div className="flex items-start justify-between">
                           <div className="space-y-1">
                             <h4 className="font-bold text-white text-base leading-tight">{edu.degree}</h4>
@@ -1045,14 +1039,14 @@ export default function AdminPage() {
                             {edu.period && <p className="text-[0.7rem] font-mono text-slate-400">Period: {edu.period} {edu.gpa ? `| GPA: ${edu.gpa}` : ''}</p>}
                           </div>
                           <div className="flex items-center gap-1 shrink-0">
-                            <button 
+                            <button
                               onClick={() => startEditEdu(edu, idx)}
                               className="btn btn-xs btn-ghost text-indigo-400 hover:bg-indigo-500/10 rounded-md gap-1 font-mono"
                               title="Edit Education"
                             >
                               <Pencil className="w-3.5 h-3.5" /> Edit
                             </button>
-                            <button 
+                            <button
                               onClick={() => handleDeleteEdu(idx)}
                               className="btn btn-xs btn-ghost text-red-400 hover:bg-red-500/10 rounded-md"
                               title="Delete Education"

@@ -758,12 +758,17 @@ app.post('/api/upload-image', async (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`==================================================`);
-  console.log(`🚀 Portfolio Single-File API Server running on port ${PORT}`);
-  console.log(`🔗 API Base: http://localhost:${PORT}/api`);
-  console.log(`📊 Health Endpoint: http://localhost:${PORT}/api/health`);
-  console.log(`🖼️  ImgBB Upload: http://localhost:${PORT}/api/upload-image`);
-  console.log(`🍃 MongoDB Atlas: ${isMongoConnected ? 'Connected' : 'Connecting...'}`);
-  console.log(`==================================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`==================================================`);
+    console.log(`🚀 Portfolio Single-File API Server running on port ${PORT}`);
+    console.log(`🔗 API Base: http://localhost:${PORT}/api`);
+    console.log(`📊 Health Endpoint: http://localhost:${PORT}/api/health`);
+    console.log(`🖼️  ImgBB Upload: http://localhost:${PORT}/api/upload-image`);
+    console.log(`🍃 MongoDB Atlas: ${isMongoConnected ? 'Connected' : 'Connecting...'}`);
+    console.log(`==================================================`);
+  });
+}
+
+export default app;
+

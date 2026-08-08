@@ -13,6 +13,8 @@ import Footer from '@/components/Footer';
 import StarBackground from '@/components/StarBackground';
 import MouseSpotlight from '@/components/MouseSpotlight';
 
+import { API_BASE_URL } from '@/lib/api';
+
 export default function HomePage() {
   const [data, setData] = useState({ bio: null, projects: [], skills: [], experience: [] });
 
@@ -20,10 +22,10 @@ export default function HomePage() {
     async function load() {
       try {
         const [bioRes, projectsRes, skillsRes, expRes] = await Promise.all([
-          fetch('http://localhost:5000/api/portfolio').catch(() => null),
-          fetch('http://localhost:5000/api/projects').catch(() => null),
-          fetch('http://localhost:5000/api/skills').catch(() => null),
-          fetch('http://localhost:5000/api/experience').catch(() => null),
+          fetch(`${API_BASE_URL}/portfolio`).catch(() => null),
+          fetch(`${API_BASE_URL}/projects`).catch(() => null),
+          fetch(`${API_BASE_URL}/skills`).catch(() => null),
+          fetch(`${API_BASE_URL}/experience`).catch(() => null),
         ]);
         setData({
           bio:        bioRes?.ok      ? await bioRes.json()      : null,

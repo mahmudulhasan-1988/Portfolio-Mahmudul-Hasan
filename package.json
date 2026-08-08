@@ -1,5 +1,14 @@
 {
+  "name": "portfolio-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix client run start"
+  },
   "dependencies": {
     "better-auth": "^1.6.26"
   }
 }
+
