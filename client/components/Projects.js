@@ -10,126 +10,6 @@ import { API_BASE_URL } from '@/lib/api';
 const CATS = ['All', 'Full Stack', 'Frontend', 'Backend'];
 const ITEMS_PER_PAGE = 3;
 
-const DEFAULT_PROJECTS = [
-  {
-    _id: "6a748aaff1c69530dafaf301",
-    title: "BiblioDrop – Local Library Delivery Website",
-    description: "BiblioDrop is a modern library book delivery platform that connects readers with nearby libraries, making borrowing books faster and more convenient.",
-    longDescription: "BiblioDrop is a full-stack web application designed to modernize traditional library services by introducing an efficient online book reservation and local delivery system.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/KpxyyC3n/Screenshot-2026-08-05-150130-png.png",
-    liveUrl: "https://assignment-10-book-web.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Assignment-10-Book-web",
-    featured: true,
-    createdAt: "2026-08-06T13:22:55.949Z"
-  },
-  {
-    _id: "6a748a2cf1c69530dafaf300",
-    title: "Government Tourism Website",
-    description: "Government Tourism Website is a modern digital tourism platform developed to promote a country's cultural heritage, historical landmarks, natural attractions, and travel services.",
-    longDescription: "The Government Tourism Website is a comprehensive tourism management system designed to serve both domestic and international travelers by providing reliable, up-to-date travel information.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/zk0F6Mz/Screenshot-2026-08-05-121818-png.png",
-    liveUrl: "https://govtturismbd.netlify.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/govt-website-bd-Project",
-    featured: true,
-    createdAt: "2026-08-06T13:20:44.279Z"
-  },
-  {
-    _id: "6a7481e9f1c69530dafaf2ff",
-    title: "PerNest Website",
-    description: "PetNest is a modern pet adoption and pet care platform that connects pet owners, animal shelters, and adopters in one place.",
-    longDescription: "PetNest is a full-stack pet adoption management system built to promote responsible pet ownership and help homeless animals find loving homes.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/3mQmgRXg/Screenshot-2026-08-06-184002-png.png",
-    liveUrl: "https://assignment-9-next-js-auth-projects.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Assignment-9-Next.JS-auth-Projects",
-    featured: true,
-    createdAt: "2026-08-06T12:45:29.657Z"
-  },
-  {
-    _id: "6a748068f1c69530dafaf2fe",
-    title: "Online Delicious Fast Food Web",
-    description: "Delicious Fast Food for Every Moment is a modern online fast-food ordering platform that allows users to explore delicious meals, customize orders, and enjoy a seamless food ordering experience.",
-    longDescription: "Delicious Fast Food for Every Moment is a full-stack food ordering web application designed to simplify the process of discovering and ordering fast food online.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/ccVncJ8T/Screenshot-2026-08-06-183557-png.png",
-    liveUrl: "https://fast-food-website-project.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Fast-Food-Website-Project",
-    featured: true,
-    createdAt: "2026-08-06T12:39:04.061Z"
-  },
-  {
-    _id: "6a747f55f1c69530dafaf2fd",
-    title: "Online Newspaper Website",
-    description: "NewsHub is a modern, responsive online newspaper platform that delivers the latest news across multiple categories, including politics, business, technology, sports, entertainment, health, and world news.",
-    longDescription: "NewsHub is a full-stack newspaper web application designed to provide reliable and up-to-date news through a clean, responsive, and intuitive interface.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/0pXr8Rhp/Screenshot-2026-08-06-182951-png.png",
-    liveUrl: "https://dragon-news-projects-liard.vercel.app/category/01",
-    githubUrl: "https://github.com/mahmudulhasan-1988/dragon-news-projects",
-    featured: true,
-    createdAt: "2026-08-06T12:34:29.563Z"
-  },
-  {
-    _id: "6a747d3ff1c69530dafaf2fc",
-    title: "WanderLast Website",
-    description: "WanderLast is a modern travel and tourism platform that helps users discover destinations, explore travel packages, book trips, and manage their travel plans in one place.",
-    longDescription: "WanderLast is a full-stack travel management application designed to simplify trip planning and booking.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/FkTC44st/Screenshot-2026-08-06-182039-png.png",
-    liveUrl: "https://wanderlast-website-projects.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/wanderlust-website-projects",
-    featured: true,
-    createdAt: "2026-08-06T12:25:35.561Z"
-  },
-  {
-    _id: "6a747b89f1c69530dafaf2fb",
-    title: "PetNest",
-    description: "PetNest is a modern pet adoption platform that connects pet owners, shelters, and animal lovers in one place. The application simplifies the adoption process by allowing users to browse pets.",
-    longDescription: "PetNest is a full-stack web application designed to make pet adoption easier, faster, and more transparent.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/7dWw0PgD/Screenshot-2026-08-06-181229-png.png",
-    liveUrl: "https://petnest-b13.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988",
-    featured: true,
-    createdAt: "2026-08-06T12:18:17.548Z"
-  },
-  {
-    _id: "6a7479caf1c69530dafaf2fa",
-    title: "Friends to Keep Close in Your Life",
-    description: "Friends to Keep Close in Your Life is a motivational and educational platform that helps people identify, appreciate, and build meaningful friendships.",
-    longDescription: "In life, the quality of your friendships often matters more than the quantity. This project highlights the importance of surrounding yourself with people who inspire you.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/WvwGrMb7/Screenshot-2026-08-06-180549-png.png",
-    liveUrl: "https://assignment-7-react-projects.netlify.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Assignment-7-React-Next.JS-Projects",
-    featured: true,
-    createdAt: "2026-08-06T12:10:50.983Z"
-  },
-  {
-    _id: "6a7477fff1c69530dafaf2f9",
-    title: "DigiTools",
-    description: "DigiTools is a modern web-based productivity platform that brings together essential digital utilities in one place. It helps users perform common tasks quickly and efficiently.",
-    longDescription: "DigiTools is a modern web-based productivity platform that brings together essential digital utilities in one place.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "https://i.ibb.co/hF9DJd7c/Screenshot-2026-08-06-175934-png.png",
-    liveUrl: "https://assingment-6-digitools-project.netlify.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Assignment-06-digitools-projects",
-    featured: true,
-    createdAt: "2026-08-06T12:03:11.093Z"
-  }
-];
-
 const gridV = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const cardV = {
   hidden:  { opacity: 0, y: 30, scale: 0.96 },
@@ -137,28 +17,22 @@ const cardV = {
 };
 
 export default function Projects({ initialProjects }) {
-  const [projects, setProjects]     = useState(
-    initialProjects && initialProjects.length > 0 ? initialProjects : DEFAULT_PROJECTS
-  );
+  const [projects, setProjects]     = useState(initialProjects || []);
   const [activeCat, setActiveCat]   = useState('All');
   const [query, setQuery]           = useState('');
   const [selected, setSelected]     = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (initialProjects && Array.isArray(initialProjects) && initialProjects.length > 0) {
-      setProjects(initialProjects);
-    } else {
-      fetch(`${API_BASE_URL}/projects`)
-        .then(r => r.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            setProjects(data);
-          }
-        })
-        .catch(() => {});
-    }
-  }, [initialProjects]);
+    fetch(`${API_BASE_URL}/projects`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setProjects(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleCatChange = (cat) => {
     setActiveCat(cat);
