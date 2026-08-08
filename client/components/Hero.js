@@ -7,6 +7,8 @@ import {
   Database, Code, CheckCircle2, Sparkles, Zap, ShieldCheck, Terminal, Send
 } from 'lucide-react';
 
+import { API_BASE_URL } from '@/lib/api';
+
 const container = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
@@ -34,13 +36,14 @@ export default function Hero({ bio }) {
 
   useEffect(() => {
     if (!data) {
-      fetch('http://localhost:5000/api/portfolio')
+      fetch(`${API_BASE_URL}/portfolio`)
         .then(r => r.json()).then(setData).catch(() => { });
     }
   }, [data]);
 
   const stats = data?.stats || { projectsCompleted: 28, yearsExperience: 5, codeCommits: '3.4k+', happyClients: 19 };
-  const avatar = data?.avatar || '/profile-hero.png';
+  const avatar = data?.avatar || 'https://i.ibb.co.com/pv83jvbS/PP-Hasan.png';
+
 
   const handleDownload = () => {
     setDownloaded(true);

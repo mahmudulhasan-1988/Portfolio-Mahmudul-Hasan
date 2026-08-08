@@ -31,12 +31,14 @@ const DEFAULT_EXP = [
   },
 ];
 
+import { API_BASE_URL } from '@/lib/api';
+
 export default function Experience({ initialExperiences }) {
   const [experiences, setExperiences] = useState(initialExperiences?.length ? initialExperiences : []);
 
   useEffect(() => {
     if (!experiences.length) {
-      fetch('http://localhost:5000/api/experience')
+      fetch(`${API_BASE_URL}/experience`)
         .then(r => r.json()).then(setExperiences).catch(() => setExperiences(DEFAULT_EXP));
     }
   }, []);

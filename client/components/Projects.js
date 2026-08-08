@@ -5,8 +5,65 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FolderGit2, Search, ExternalLink, Github, Eye, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProjectModal from './ProjectModal';
 
+import { API_BASE_URL } from '@/lib/api';
+
 const CATS = ['All', 'Full Stack', 'Frontend', 'Backend'];
 const ITEMS_PER_PAGE = 3;
+
+const DEFAULT_PROJECTS = [
+  {
+    _id: "default_1",
+    title: "NovaCloud Analytics Dashboard",
+    description: "A real-time metrics monitoring platform with dynamic charts, custom alerts, and server health tracking.",
+    longDescription: "NovaCloud Analytics delivers real-time insights into infrastructure performance. Built with Express.js, WebSockets, and MongoDB time-series data handling paired with a Next.js responsive frontend.",
+    category: "Full Stack",
+    tags: ["Next.js", "Express.js", "MongoDB", "Tailwind CSS", "DaisyUI"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    liveUrl: "https://example.com/novacloud",
+    githubUrl: "https://github.com/example/novacloud",
+    featured: true,
+    createdAt: new Date().toISOString()
+  },
+  {
+    _id: "default_2",
+    title: "Nexus E-Commerce Engine",
+    description: "Lightning-fast headless e-commerce store built with modular checkout flow, stripe integration, and inventory management.",
+    longDescription: "Nexus E-Commerce provides seamless shopping experience with zero frame drops, instant filtering, and secure checkout architecture.",
+    category: "Full Stack",
+    tags: ["Node.js", "Express", "MongoDB Native", "React", "DaisyUI"],
+    image: "https://images.unsplash.com/photo-1556742049-0a67daf64f42?auto=format&fit=crop&w=800&q=80",
+    liveUrl: "https://example.com/nexus",
+    githubUrl: "https://github.com/example/nexus",
+    featured: true,
+    createdAt: new Date().toISOString()
+  },
+  {
+    _id: "default_3",
+    title: "Aura AI Prompt Studio",
+    description: "Visual workspace for prompt engineers to design, test, and benchmark AI LLM chain models.",
+    longDescription: "Aura AI Studio enables prompt engineers to iterate rapidly with instant playground previews and response metrics comparison.",
+    category: "Frontend",
+    tags: ["Next.js", "Tailwind CSS", "DaisyUI", "REST API"],
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    liveUrl: "https://example.com/aura",
+    githubUrl: "https://github.com/example/aura",
+    featured: true,
+    createdAt: new Date().toISOString()
+  },
+  {
+    _id: "default_4",
+    title: "Pulse Realtime Chat & Video",
+    description: "High-throughput messaging API server and web app with end-to-end socket channels.",
+    longDescription: "Pulse provides ultra-low latency channel communications leveraging native MongoDB document streams and WebRTC mesh technology.",
+    category: "Backend",
+    tags: ["Express.js", "MongoDB", "WebSockets", "Node.js"],
+    image: "https://images.unsplash.com/photo-1614680376593-902f749f7b64?auto=format&fit=crop&w=800&q=80",
+    liveUrl: "https://example.com/pulse",
+    githubUrl: "https://github.com/example/pulse",
+    featured: false,
+    createdAt: new Date().toISOString()
+  }
+];
 
 const gridV = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const cardV = {
@@ -15,18 +72,28 @@ const cardV = {
 };
 
 export default function Projects({ initialProjects }) {
-  const [projects, setProjects]     = useState(initialProjects || []);
+  const [projects, setProjects]     = useState(
+    initialProjects && initialProjects.length > 0 ? initialProjects : DEFAULT_PROJECTS
+  );
   const [activeCat, setActiveCat]   = useState('All');
   const [query, setQuery]           = useState('');
   const [selected, setSelected]     = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (!projects.length) {
-      fetch('http://localhost:5000/api/projects')
-        .then(r => r.json()).then(setProjects).catch(() => {});
+    if (initialProjects && Array.isArray(initialProjects) && initialProjects.length > 0) {
+      setProjects(initialProjects);
+    } else {
+      fetch(`${API_BASE_URL}/projects`)
+        .then(r => r.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            setProjects(data);
+          }
+        })
+        .catch(() => {});
     }
-  }, [projects]);
+  }, [initialProjects]);
 
   const handleCatChange = (cat) => {
     setActiveCat(cat);
