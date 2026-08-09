@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MessageCircle, MapPin, Send, CheckCircle2, AlertCircle, User, Tag, MessageSquare } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/api';
 
 const fadeUp = (delay = 0) => ({
   initial:     { opacity: 0, y: 30 },

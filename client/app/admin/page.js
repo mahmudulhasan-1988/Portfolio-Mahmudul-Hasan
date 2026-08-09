@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShieldCheck, Plus, Trash2, Mail, FolderGit2, Cpu, ArrowLeft, LogOut, Lock, CheckCircle2, AlertCircle, ExternalLink, Github, Image, Link2, Sparkles, Pencil, Code2, Layout, Server, Database, GitBranch, Box, Globe, Palette, Zap, GraduationCap, BookOpen, Sun, Moon } from 'lucide-react';
 import { useSession, signIn, signOut } from '@/lib/auth-client';
 import { useTheme } from '@/components/ThemeProvider';
+import { API_BASE_URL } from '@/lib/api';
 
 export default function AdminPage() {
   const { theme, toggleTheme } = useTheme();
@@ -110,7 +111,7 @@ export default function AdminPage() {
           reader.readAsDataURL(file);
         });
 
-        const res = await fetch('http://localhost:5000/api/upload-image', {
+        const res = await fetch(`${API_BASE_URL}/upload-image`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: base64, name: file.name })
@@ -139,7 +140,7 @@ export default function AdminPage() {
     e.preventDefault();
     setAuthError('');
     try {
-      const res = await fetch('http://localhost:5000/api/admin/login', {
+      const res = await fetch(`${API_BASE_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: passcode })
@@ -162,22 +163,22 @@ export default function AdminPage() {
   };
 
   const loadAdminData = () => {
-    fetch('http://localhost:5000/api/projects')
+    fetch(`${API_BASE_URL}/projects`)
       .then(res => res.json())
       .then(data => setProjects(data))
       .catch(() => { });
 
-    fetch('http://localhost:5000/api/messages')
+    fetch(`${API_BASE_URL}/messages`)
       .then(res => res.json())
       .then(data => setMessages(data))
       .catch(() => { });
 
-    fetch('http://localhost:5000/api/skills')
+    fetch(`${API_BASE_URL}/skills`)
       .then(res => res.json())
       .then(data => setSkills(data))
       .catch(() => { });
 
-    fetch('http://localhost:5000/api/education')
+    fetch(`${API_BASE_URL}/education`)
       .then(res => res.json())
       .then(data => setEducationList(Array.isArray(data) ? data : []))
       .catch(() => { });
@@ -194,8 +195,8 @@ export default function AdminPage() {
     try {
       const isEditing = editingEduIndex !== null;
       const targetUrl = isEditing
-        ? `http://localhost:5000/api/education/${editingEduIndex}`
-        : 'http://localhost:5000/api/education';
+        ? `${API_BASE_URL}/education/${editingEduIndex}`
+        : `${API_BASE_URL}/education`;
       const method = isEditing ? 'PUT' : 'POST';
 
       const res = await fetch(targetUrl, {
@@ -239,7 +240,7 @@ export default function AdminPage() {
   const handleDeleteEdu = async (idx) => {
     if (!confirm('Are you sure you want to delete this education entry?')) return;
     try {
-      await fetch(`http://localhost:5000/api/education/${idx}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/education/${idx}`, { method: 'DELETE' });
       setStatusMsg({ type: 'success', text: 'Education entry deleted from MongoDB.' });
       loadAdminData();
     } catch (err) {
@@ -261,8 +262,8 @@ export default function AdminPage() {
 
     const isEditing = Boolean(editingProjectId);
     const targetUrl = isEditing
-      ? `http://localhost:5000/api/projects/${editingProjectId}`
-      : 'http://localhost:5000/api/projects';
+      ? `${API_BASE_URL}/projects/${editingProjectId}`
+      : `${API_BASE_URL}/projects`;
     const method = isEditing ? 'PUT' : 'POST';
 
     try {
@@ -333,7 +334,7 @@ export default function AdminPage() {
   const handleDeleteProject = async (id) => {
     if (!confirm('Are you sure you want to delete this project from MongoDB?')) return;
     try {
-      await fetch(`http://localhost:5000/api/projects/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/projects/${id}`, { method: 'DELETE' });
       setStatusMsg({ type: 'success', text: 'Project deleted from MongoDB.' });
       loadAdminData();
     } catch (err) {
@@ -343,7 +344,7 @@ export default function AdminPage() {
 
   const handleDeleteMessage = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/messages/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/messages/${id}`, { method: 'DELETE' });
       setStatusMsg({ type: 'success', text: 'Message deleted from MongoDB.' });
       loadAdminData();
     } catch (err) {
@@ -356,8 +357,8 @@ export default function AdminPage() {
     try {
       const isEditing = Boolean(editingSkillId);
       const targetUrl = isEditing
-        ? `http://localhost:5000/api/skills/${editingSkillId}`
-        : 'http://localhost:5000/api/skills';
+        ? `${API_BASE_URL}/skills/${editingSkillId}`
+        : `${API_BASE_URL}/skills`;
       const method = isEditing ? 'PUT' : 'POST';
 
       const res = await fetch(targetUrl, {
@@ -392,7 +393,7 @@ export default function AdminPage() {
   const handleDeleteSkill = async (id) => {
     if (!confirm('Are you sure you want to delete this skill from MongoDB?')) return;
     try {
-      await fetch(`http://localhost:5000/api/skills/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/skills/${id}`, { method: 'DELETE' });
       setStatusMsg({ type: 'success', text: 'Skill deleted from MongoDB.' });
       loadAdminData();
     } catch (err) {
