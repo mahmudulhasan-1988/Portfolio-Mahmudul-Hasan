@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '@/components/ThemeProvider';
 
 /* ─── Category definitions ─── */
 const CATS = ['All', 'Languages', 'Frontend', 'Backend', 'Databases', 'Tools'];
@@ -48,9 +49,7 @@ function filterSkills(skills, cat) {
 }
 
 /* ─── SVG Brand Icons ─── */
-function SkillIcon({ icon, name, hovered }) {
-  const w = hovered ? 'white' : undefined;
-
+function SkillIcon({ icon, name, hovered, isLight }) {
   const icons = {
     cpp: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
@@ -93,8 +92,8 @@ function SkillIcon({ icon, name, hovered }) {
     ),
     nextjs: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <circle cx="12" cy="12" r="12" fill={hovered ? '#8b5cf6' : '#000'}/>
-        <path fill={hovered ? '#fff' : '#fff'} d="M19.07 20.628L7.878 6H6v12h1.878V8.31L17.99 21.5a11.94 11.94 0 001.08-.872zM14.5 6h2v12.005c-.66.039-1.32.037-2 0V6z"/>
+        <circle cx="12" cy="12" r="12" fill={hovered ? '#8b5cf6' : (isLight ? '#0f172a' : '#ffffff')}/>
+        <path fill={hovered ? '#fff' : (isLight ? '#ffffff' : '#0f172a')} d="M19.07 20.628L7.878 6H6v12h1.878V8.31L17.99 21.5a11.94 11.94 0 001.08-.872zM14.5 6h2v12.005c-.66.039-1.32.037-2 0V6z"/>
       </svg>
     ),
     tailwind: (
@@ -104,7 +103,7 @@ function SkillIcon({ icon, name, hovered }) {
     ),
     threejs: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <path fill={hovered ? '#fff' : '#fff'} d="M.38 0L4.9 24 24 7.37.38 0zM14.2 18.51L4.8 21 2.56 10.19l18.04-5.05-6.4 13.37z"/>
+        <path fill={hovered ? '#fff' : (isLight ? '#0f172a' : '#ffffff')} d="M.38 0L4.9 24 24 7.37.38 0zM14.2 18.51L4.8 21 2.56 10.19l18.04-5.05-6.4 13.37z"/>
       </svg>
     ),
     nodejs: (
@@ -114,12 +113,12 @@ function SkillIcon({ icon, name, hovered }) {
     ),
     express: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <path fill={hovered ? '#fff' : '#ffffff'} d="M24 18.588a1.529 1.529 0 01-1.895-.72l-3.45-4.771-.5-.667-4.003 5.444a1.466 1.466 0 01-1.802.708l5.158-6.92-4.798-6.251a1.595 1.595 0 011.9.666l3.576 4.83 3.596-4.81a1.435 1.435 0 011.788-.668L21.708 7.9l-2.522 3.283a.666.666 0 000 .994l4.804 6.412zM.002 11.576l.42-2.075c1.154-4.103 5.858-5.81 9.094-3.27 1.895 1.489 2.368 3.597 2.275 5.973H1.116C.943 16.447 4.005 19.009 7.92 17.7a4.078 4.078 0 002.582-2.876c.207-.666.548-.78 1.174-.588a5.417 5.417 0 01-2.589 3.957 6.272 6.272 0 01-7.306-.933 6.575 6.575 0 01-1.64-3.685.573.573 0 00-.139-.182V11.576zm1.24-.261c-.083 0 3.431.019 3.431.019V9.651c0-1.455-.985-2.696-2.363-3.032a3.018 3.018 0 00-3.568 2.983c.007.703 0 1.401 0 2.104.003.009.5.609.5.609z"/>
+        <path fill={hovered ? '#fff' : (isLight ? '#0f172a' : '#ffffff')} d="M24 18.588a1.529 1.529 0 01-1.895-.72l-3.45-4.771-.5-.667-4.003 5.444a1.466 1.466 0 01-1.802.708l5.158-6.92-4.798-6.251a1.595 1.595 0 011.9.666l3.576 4.83 3.596-4.81a1.435 1.435 0 011.788-.668L21.708 7.9l-2.522 3.283a.666.666 0 000 .994l4.804 6.412zM.002 11.576l.42-2.075c1.154-4.103 5.858-5.81 9.094-3.27 1.895 1.489 2.368 3.597 2.275 5.973H1.116C.943 16.447 4.005 19.009 7.92 17.7a4.078 4.078 0 002.582-2.876c.207-.666.548-.78 1.174-.588a5.417 5.417 0 01-2.589 3.957 6.272 6.272 0 01-7.306-.933 6.575 6.575 0 01-1.64-3.685.573.573 0 00-.139-.182V11.576zm1.24-.261c-.083 0 3.431.019 3.431.019V9.651c0-1.455-.985-2.696-2.363-3.032a3.018 3.018 0 00-3.568 2.983c.007.703 0 1.401 0 2.104.003.009.5.609.5.609z"/>
       </svg>
     ),
     django: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <path fill={hovered ? '#fff' : '#092E20'} d="M11.146 0h3.924v18.166c-2.013.382-3.491.535-5.096.535-4.791 0-7.288-2.166-7.288-6.32 0-4.002 2.65-6.6 6.753-6.6.637 0 1.121.05 1.707.203V0zm0 9.143a3.894 3.894 0 00-1.325-.204c-1.988 0-3.134 1.223-3.134 3.365 0 2.09 1.096 3.236 3.109 3.236.433 0 .79-.025 1.35-.102V9.142zM21.314 6.06v9.098c0 3.134-.229 4.638-.917 5.937-.637 1.249-1.478 2.039-3.211 2.905l-3.644-1.733c1.733-.815 2.574-1.529 3.109-2.625.561-1.121.739-2.421.739-5.835V6.059h3.924zm-3.95-5.936h3.95v3.95h-3.95V.124z"/>
+        <path fill={hovered ? '#fff' : (isLight ? '#092E20' : '#44B78B')} d="M11.146 0h3.924v18.166c-2.013.382-3.491.535-5.096.535-4.791 0-7.288-2.166-7.288-6.32 0-4.002 2.65-6.6 6.753-6.6.637 0 1.121.05 1.707.203V0zm0 9.143a3.894 3.894 0 00-1.325-.204c-1.988 0-3.134 1.223-3.134 3.365 0 2.09 1.096 3.236 3.109 3.236.433 0 .79-.025 1.35-.102V9.142zM21.314 6.06v9.098c0 3.134-.229 4.638-.917 5.937-.637 1.249-1.478 2.039-3.211 2.905l-3.644-1.733c1.733-.815 2.574-1.529 3.109-2.625.561-1.121.739-2.421.739-5.835V6.059h3.924zm-3.95-5.936h3.95v3.95h-3.95V.124z"/>
       </svg>
     ),
     mongodb: (
@@ -144,7 +143,7 @@ function SkillIcon({ icon, name, hovered }) {
     ),
     github: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <path fill={hovered ? '#8b5cf6' : '#fff'} d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        <path fill={hovered ? '#8b5cf6' : (isLight ? '#0f172a' : '#ffffff')} d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
       </svg>
     ),
     postman: (
@@ -154,7 +153,7 @@ function SkillIcon({ icon, name, hovered }) {
     ),
     vercel: (
       <svg viewBox="0 0 24 24" className="w-12 h-12">
-        <path fill={hovered ? '#8b5cf6' : '#fff'} d="M24 22.525H0l12-21.05 12 21.05z"/>
+        <path fill={hovered ? '#8b5cf6' : (isLight ? '#0f172a' : '#ffffff')} d="M24 22.525H0l12-21.05 12 21.05z"/>
       </svg>
     ),
     docker: (
@@ -166,7 +165,7 @@ function SkillIcon({ icon, name, hovered }) {
 
   return icons[icon] || (
     <div className="w-12 h-12 flex items-center justify-center text-2xl font-black"
-      style={{ color: hovered ? '#fff' : '#a78bfa' }}>
+      style={{ color: hovered ? '#fff' : (isLight ? '#7c3aed' : '#a78bfa') }}>
       {name.slice(0, 2)}
     </div>
   );
@@ -183,6 +182,14 @@ const cardV = {
 export default function Skills({ initialSkills }) {
   const [active, setActive] = useState('All');
   const [hoveredIdx, setHoveredIdx] = useState(null);
+  const [mounted, setMounted] = useState(false);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isLight = mounted && theme === 'light';
 
   /* Merge server skills into static list if available */
   const skills = STATIC_SKILLS;
@@ -204,7 +211,7 @@ export default function Skills({ initialSkills }) {
           viewport={{ once: true }} transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
             Technical Skills —{' '}
             <span className="text-gradient uppercase">Core Expertise!</span>
           </h2>
@@ -253,12 +260,18 @@ export default function Skills({ initialSkills }) {
                   style={{
                     background:   hovered
                       ? 'linear-gradient(135deg, #7c3aed, #8b5cf6, #a855f7)'
+                      : isLight
+                      ? '#ffffff'
                       : 'rgba(10,5,24,0.85)',
                     border:       hovered
                       ? '1px solid rgba(139,92,246,0.7)'
+                      : isLight
+                      ? '1px solid rgba(139,92,246,0.2)'
                       : '1px solid rgba(139,92,246,0.3)',
                     boxShadow:    hovered
                       ? '0 0 30px rgba(139,92,246,0.4), 0 0 60px rgba(139,92,246,0.15)'
+                      : isLight
+                      ? '0 10px 25px -5px rgba(139,92,246,0.08)'
                       : '0 0 0 rgba(139,92,246,0)',
                     minHeight: '130px',
                   }}
@@ -275,11 +288,17 @@ export default function Skills({ initialSkills }) {
 
                   {/* Icon */}
                   <div className="flex items-center justify-center w-14 h-14">
-                    <SkillIcon icon={skill.icon} name={skill.name} hovered={hovered} />
+                    <SkillIcon icon={skill.icon} name={skill.name} hovered={hovered} isLight={isLight} />
                   </div>
 
                   {/* Name */}
-                  <span className={`text-sm font-semibold text-center leading-tight transition-colors duration-200 ${hovered ? 'text-white' : 'text-slate-300'}`}>
+                  <span className={`text-sm font-semibold text-center leading-tight transition-colors duration-200 ${
+                    hovered
+                      ? 'text-white'
+                      : isLight
+                      ? 'text-slate-800 font-bold'
+                      : 'text-slate-300'
+                  }`}>
                     {skill.name}
                   </span>
                 </motion.div>
@@ -292,3 +311,4 @@ export default function Skills({ initialSkills }) {
     </section>
   );
 }
+

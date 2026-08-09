@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./app/**/*.{js,jsx}",
     "./pages/**/*.{js,jsx}",
@@ -37,6 +38,7 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
+      "light",
       {
         purplenight: {
           "primary":   "#8b5cf6",
@@ -56,3 +58,4 @@ module.exports = {
     defaultTheme: "purplenight",
   },
 };
+
