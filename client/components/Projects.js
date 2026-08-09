@@ -10,6 +10,61 @@ import { API_BASE_URL } from '@/lib/api';
 const CATS = ['All', 'Full Stack', 'Frontend', 'Backend'];
 const ITEMS_PER_PAGE = 3;
 
+const DEFAULT_PROJECTS = [
+  {
+    _id: '1',
+    title: 'Textile SaaS & Enterprise ERP',
+    description: 'Scalable microservices-based SaaS ERP platform serving 50k+ monthly active users. Features Express.js REST APIs, Redis caching, and real-time MongoDB analytics.',
+    category: 'Full Stack',
+    tags: ['Next.js', 'Express.js', 'MongoDB', 'Redis', 'Docker', 'AWS'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
+    liveUrl: 'https://portfolio-mahmudul-hasan.vercel.app',
+    githubUrl: 'https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan',
+    challenges: 'Optimizing high-concurrency API throughput for enterprise database queries while reducing latencies.',
+    futurePlans: 'Integrating AI-driven predictive supply chain analytics and automated report generation.',
+    featured: true
+  },
+  {
+    _id: '2',
+    title: 'NovaCloud E-Commerce Platform',
+    description: 'High-performance Next.js 14 e-commerce platform with Better-Auth authentication, ImgBB image uploads, and Stripe payment integration.',
+    category: 'Full Stack',
+    tags: ['Next.js', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Stripe'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',
+    liveUrl: 'https://portfolio-mahmudul-hasan.vercel.app',
+    githubUrl: 'https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan',
+    challenges: 'Implementing robust server-side rendering and optimistic UI state management.',
+    futurePlans: 'Adding real-time chat support for buyers and automated order tracking webhooks.',
+    featured: true
+  },
+  {
+    _id: '3',
+    title: 'Microservice API & Redis Cache Layer',
+    description: 'High-throughput Node.js & Express API gateway featuring rate limiting, JWT authentication, and native MongoDB aggregation pipelines.',
+    category: 'Backend',
+    tags: ['Node.js', 'Express.js', 'PostgreSQL', 'Redis', 'Docker'],
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop',
+    liveUrl: 'https://server-zeta-lyart.vercel.app',
+    githubUrl: 'https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan',
+    challenges: 'Designing zero-downtime database migrations and automated cache invalidation logic.',
+    futurePlans: 'Exposing gRPC endpoints for microservice communication.',
+    featured: false
+  },
+  {
+    _id: '4',
+    title: 'Interactive 3D Portfolio Showcase',
+    description: 'Modern glassmorphic portfolio UI with Framer Motion animations, Three.js 3D canvas backgrounds, and DaisyUI theme switching.',
+    category: 'Frontend',
+    tags: ['React.js', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'Three.js'],
+    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800&auto=format&fit=crop',
+    liveUrl: 'https://portfolio-mahmudul-hasan.vercel.app',
+    githubUrl: 'https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan',
+    challenges: 'Maintaining 60 FPS smooth animations across mobile and desktop browsers.',
+    futurePlans: 'Adding interactive WebGL custom particle shaders.',
+    featured: true
+  }
+];
+
 const gridV = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const cardV = {
   hidden:  { opacity: 0, y: 30, scale: 0.96 },
@@ -17,7 +72,7 @@ const cardV = {
 };
 
 export default function Projects({ initialProjects }) {
-  const [projects, setProjects]     = useState(initialProjects || []);
+  const [projects, setProjects]     = useState(initialProjects?.length ? initialProjects : DEFAULT_PROJECTS);
   const [activeCat, setActiveCat]   = useState('All');
   const [query, setQuery]           = useState('');
   const [selected, setSelected]     = useState(null);
@@ -27,7 +82,7 @@ export default function Projects({ initialProjects }) {
     fetch(`${API_BASE_URL}/projects`)
       .then(r => r.json())
       .then(data => {
-        if (Array.isArray(data)) {
+        if (Array.isArray(data) && data.length > 0) {
           setProjects(data);
         }
       })
@@ -44,7 +99,9 @@ export default function Projects({ initialProjects }) {
     setCurrentPage(1);
   };
 
-  const filtered = projects.filter(p => {
+  const projectList = (projects && projects.length > 0) ? projects : DEFAULT_PROJECTS;
+
+  const filtered = projectList.filter(p => {
     const catOk   = activeCat === 'All' || p.category === activeCat;
     const queryOk = !query || [p.title, p.description, ...(p.tags || [])].join(' ').toLowerCase().includes(query.toLowerCase());
     return catOk && queryOk;
