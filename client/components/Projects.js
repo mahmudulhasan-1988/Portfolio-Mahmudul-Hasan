@@ -10,64 +10,7 @@ import { API_BASE_URL } from '@/lib/api';
 const CATS = ['All', 'Full Stack', 'Frontend', 'Backend'];
 const ITEMS_PER_PAGE = 3;
 
-const DEFAULT_PROJECTS = [
-  {
-    _id: "66b1a1111111111111111111",
-    title: "NovaCloud Analytics Dashboard",
-    description: "A real-time metrics monitoring platform with dynamic charts, custom alerts, and server health tracking.",
-    longDescription: "NovaCloud Analytics delivers real-time insights into infrastructure performance. Built with Express.js, WebSockets, and MongoDB time-series data handling paired with a Next.js responsive frontend.",
-    category: "Full Stack",
-    tags: ["Next.js", "Express.js", "MongoDB", "Tailwind CSS", "DaisyUI"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    liveUrl: "https://portfolio-mahmudul-hasan.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan",
-    challenges: "Handling thousands of simultaneous WebSocket ping events without stalling the Node.js single-threaded event loop, and designing high-efficiency MongoDB aggregation pipelines for instant chart rendering.",
-    futurePlans: "Implement automated AI anomaly detection models, add multi-tenant team workspaces, and deploy edge streaming relays.",
-    featured: true
-  },
-  {
-    _id: "66b1a2222222222222222222",
-    title: "Nexus E-Commerce Engine",
-    description: "Lightning-fast headless e-commerce store built with modular checkout flow, stripe integration, and inventory management.",
-    longDescription: "Nexus E-Commerce provides seamless shopping experience with zero frame drops, instant filtering, and secure checkout architecture.",
-    category: "Full Stack",
-    tags: ["Node.js", "Express", "MongoDB Native", "React", "DaisyUI"],
-    image: "https://images.unsplash.com/photo-1556742049-0a67daf64f42?auto=format&fit=crop&w=800&q=80",
-    liveUrl: "https://portfolio-mahmudul-hasan.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan",
-    challenges: "Preventing race conditions during flash-sale inventory decrements and ensuring instant cache invalidation upon stock updates.",
-    futurePlans: "Add localized multi-currency checkout, dynamic AR product previews, and automated order fulfillment webhooks.",
-    featured: true
-  },
-  {
-    _id: "66b1a3333333333333333333",
-    title: "Aura AI Prompt Studio",
-    description: "Visual workspace for prompt engineers to design, test, and benchmark AI LLM chain models.",
-    longDescription: "Aura AI Studio enables prompt engineers to iterate rapidly with instant playground previews and response metrics comparison.",
-    category: "Frontend",
-    tags: ["Next.js", "Tailwind CSS", "DaisyUI", "REST API"],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-    liveUrl: "https://portfolio-mahmudul-hasan.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan",
-    challenges: "Managing complex nested state trees for prompt variations while preserving fast 60fps UI responsiveness during token streaming.",
-    futurePlans: "Integrate fine-tuning dataset export tools and add team collaboration permissions.",
-    featured: true
-  },
-  {
-    _id: "66b1a4444444444444444444",
-    title: "Pulse Realtime Chat & Video",
-    description: "High-throughput messaging API server and web app with end-to-end socket channels.",
-    longDescription: "Pulse provides ultra-low latency channel communications leveraging native MongoDB document streams and WebRTC mesh technology.",
-    category: "Backend",
-    tags: ["Express.js", "MongoDB", "WebSockets", "Node.js"],
-    image: "https://images.unsplash.com/photo-1614680376593-902f749f7b64?auto=format&fit=crop&w=800&q=80",
-    liveUrl: "https://portfolio-mahmudul-hasan.vercel.app",
-    githubUrl: "https://github.com/mahmudulhasan-1988/Portfolio-Mahmudul-Hasan",
-    challenges: "Designing fail-safe WebRTC fallback signaling servers and managing room session cleanup in native MongoDB collections.",
-    futurePlans: "Add end-to-end encryption key exchange and group screen sharing capabilities.",
-    featured: false
-  }
-];
+
 
 const gridV = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };
 const cardV = {
@@ -76,7 +19,7 @@ const cardV = {
 };
 
 export default function Projects({ initialProjects }) {
-  const [projects, setProjects]     = useState(initialProjects?.length ? initialProjects : DEFAULT_PROJECTS);
+  const [projects, setProjects]     = useState(initialProjects || []);
   const [activeCat, setActiveCat]   = useState('All');
   const [query, setQuery]           = useState('');
   const [selected, setSelected]     = useState(null);
@@ -86,7 +29,7 @@ export default function Projects({ initialProjects }) {
     fetch(`${API_BASE_URL}/projects`)
       .then(r => r.json())
       .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setProjects(data);
         }
       })
@@ -103,9 +46,7 @@ export default function Projects({ initialProjects }) {
     setCurrentPage(1);
   };
 
-  const displayProjects = (projects && projects.length > 0) ? projects : DEFAULT_PROJECTS;
-
-  const filtered = displayProjects.filter(p => {
+  const filtered = projects.filter(p => {
     const catOk   = activeCat === 'All' || p.category === activeCat;
     const queryOk = !query || [p.title, p.description, ...(p.tags || [])].join(' ').toLowerCase().includes(query.toLowerCase());
     return catOk && queryOk;
